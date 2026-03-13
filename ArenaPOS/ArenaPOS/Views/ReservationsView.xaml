@@ -1,0 +1,104 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:ArenaPOS.ViewModels"
+    x:Class="ArenaPOS.Views.ReservationsView"
+    Title="Reservas do Dia"
+    BackgroundColor="{StaticResource OffBlack}">
+
+    <Grid Padding="10">
+
+        <CollectionView
+            ItemsSource="{Binding TodaysReservations}"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Border
+                        Stroke="{StaticResource Gray600}"
+                        BackgroundColor="{StaticResource Gray950}"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="15"
+                        Margin="5">
+
+                        <Grid
+                            ColumnDefinitions="*,*,Auto"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="6">
+
+                            <!-- Quadra -->
+                            <Label
+                                Text="{Binding CourtName}"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                TextColor="{StaticResource White}"
+                                Grid.Row="0"
+                                Grid.Column="0"/>
+
+                            <!-- Horário -->
+                            <Label
+                                Text="{Binding Time}"
+                                FontSize="16"
+                                TextColor="{StaticResource Primary}"
+                                HorizontalOptions="Center"
+                                Grid.Row="0"
+                                Grid.Column="1"/>
+
+                            <!-- Valor -->
+                            <Label
+                                Text="{Binding Price, StringFormat='R$ {0:F2}'}"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                TextColor="{StaticResource Success}"
+                                HorizontalOptions="End"
+                                Grid.Row="0"
+                                Grid.Column="2"/>
+
+                            <!-- Cliente -->
+                            <Label
+                                Text="{Binding PlayerName, StringFormat='Cliente: {0}'}"
+                                FontSize="14"
+                                TextColor="{StaticResource Gray400}"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"/>
+
+                            <!-- Botão receber -->
+                            <Button
+                                Text="Receber"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CheckoutReservationCommand}"
+                                CommandParameter="{Binding .}"
+                                IsVisible="{Binding Status, Converter={StaticResource InvertedStringMatchConverter}, ConverterParameter=Paid}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource PrimaryDarkText}"
+                                HeightRequest="36"
+                                FontAttributes="Bold"
+                                Grid.Row="1"
+                                Grid.Column="2"/>
+
+                            <!-- Pago -->
+                            <Label
+                                Text="Pago"
+                                IsVisible="{Binding Status, Converter={StaticResource StringMatchConverter}, ConverterParameter=Paid}"
+                                TextColor="{StaticResource Success}"
+                                FontAttributes="Bold"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                Grid.Row="1"
+                                Grid.Column="2"/>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

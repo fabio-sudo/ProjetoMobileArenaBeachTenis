@@ -1,0 +1,218 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:ArenaPOS.ViewModels"
+    x:Class="ArenaPOS.Views.QuickSaleView"
+    BackgroundColor="{StaticResource OffBlack}"
+    Title="Ponto de Venda">
+
+    <Grid ColumnDefinitions="2*,1*" ColumnSpacing="20" Padding="20">
+
+        <!-- PRODUTOS -->
+        <Border
+            Grid.Column="0"
+            BackgroundColor="{StaticResource Gray950}"
+            Stroke="{StaticResource Gray600}"
+            StrokeShape="RoundRectangle 12"
+            Padding="20">
+
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="20">
+
+                <!-- Título -->
+                <Label
+                    Text="Produtos"
+                    Style="{StaticResource SubHeadline}"
+                    HorizontalOptions="Start"/>
+
+                <!-- Busca -->
+                <Border
+                    Grid.Row="1"
+                    Stroke="{StaticResource Gray600}"
+                    StrokeShape="RoundRectangle 8"
+                    Padding="8">
+
+                    <SearchBar
+                        Placeholder="Buscar produto..."
+                        Text="{Binding SearchText}"
+                        BackgroundColor="Transparent"
+                        CancelButtonColor="{StaticResource Primary}"/>
+
+                </Border>
+
+                <!-- Lista produtos -->
+                <CollectionView
+                    Grid.Row="2"
+                    ItemsSource="{Binding Products}"
+                    SelectionMode="None">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="3"
+                            VerticalItemSpacing="12"
+                            HorizontalItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border
+                                BackgroundColor="{StaticResource MidnightBlue}"
+                                Stroke="{StaticResource Gray600}"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="15">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddToCartCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+
+                                <VerticalStackLayout
+                                    Spacing="8"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+
+                                    <Image
+                                        Source="product_placeholder.png"
+                                        HeightRequest="60"
+                                        WidthRequest="60"
+                                        IsVisible="False"/>
+
+                                    <Label
+                                        Text="{Binding Name}"
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource White}"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"/>
+
+                                    <Label
+                                        Text="{Binding Price, StringFormat='R$ {0:F2}'}"
+                                        TextColor="{StaticResource Primary}"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"/>
+
+                                </VerticalStackLayout>
+
+                            </Border>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </Grid>
+
+        </Border>
+
+
+        <!-- CARRINHO -->
+        <Border
+            Grid.Column="1"
+            BackgroundColor="{StaticResource Gray950}"
+            Stroke="{StaticResource Gray600}"
+            StrokeShape="RoundRectangle 12"
+            Padding="20">
+
+            <Grid RowDefinitions="Auto,*,Auto,Auto" RowSpacing="20">
+
+                <!-- Título -->
+                <Label
+                    Text="Carrinho"
+                    Style="{StaticResource SubHeadline}"
+                    HorizontalOptions="Start"/>
+
+                <!-- Itens -->
+                <CollectionView
+                    Grid.Row="1"
+                    ItemsSource="{Binding Cart}"
+                    SelectionMode="None">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto"
+                                Padding="0,12">
+
+                                <Label
+                                    Grid.Column="0"
+                                    Text="{Binding Quantity, StringFormat='{0}x'}"
+                                    TextColor="{StaticResource Secondary}"
+                                    FontAttributes="Bold"
+                                    Margin="0,0,10,0"/>
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding ProductName}"
+                                    TextColor="{StaticResource White}"
+                                    LineBreakMode="TailTruncation"/>
+
+                                <Label
+                                    Grid.Column="2"
+                                    Text="{Binding Price, StringFormat='R$ {0:F2}'}"
+                                    TextColor="{StaticResource White}"
+                                    HorizontalOptions="End"/>
+
+                            </Grid>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+
+                <!-- TOTAL -->
+                <Grid
+                    Grid.Row="2"
+                    ColumnDefinitions="*,Auto"
+                    Padding="0,10">
+
+                    <Label
+                        Text="Total"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        TextColor="{StaticResource White}"/>
+
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding Total, StringFormat='R$ {0:F2}'}"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        TextColor="{StaticResource Primary}"/>
+
+                </Grid>
+
+
+                <!-- BOTÕES -->
+                <Grid
+                    Grid.Row="3"
+                    ColumnDefinitions="*,2*"
+                    ColumnSpacing="10">
+
+                    <Button
+                        Text="Limpar"
+                        Command="{Binding ClearCartCommand}"
+                        BackgroundColor="{StaticResource Tertiary}"
+                        TextColor="{StaticResource White}"
+                        FontAttributes="Bold"
+                        HeightRequest="55"/>
+
+                    <Button
+                        Grid.Column="1"
+                        Text="Finalizar Venda"
+                        Command="{Binding CheckoutCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource Black}"
+                        FontAttributes="Bold"
+                        HeightRequest="55"/>
+
+                </Grid>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>

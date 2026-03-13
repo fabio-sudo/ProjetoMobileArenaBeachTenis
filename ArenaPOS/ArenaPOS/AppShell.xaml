@@ -1,0 +1,39 @@
+<Shell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ArenaPOS.Views"
+    x:Class="ArenaPOS.AppShell">
+
+    <!-- Login Route -->
+    <ShellItem Route="Login">
+        <ShellContent 
+            ContentTemplate="{DataTemplate views:LoginView}"
+            Route="LoginView"
+            Shell.NavBarIsVisible="False" 
+            Shell.TabBarIsVisible="False" />
+    </ShellItem>
+
+    <!-- Main Application Flow -->
+    <TabBar Route="Main">
+        <!-- Quick Sale -->
+        <Tab Title="PDV" Icon="dotnet_bot.png">
+            <ShellContent Route="QuickSale" ContentTemplate="{DataTemplate views:QuickSaleView}" />
+        </Tab>
+        
+        <!-- Tabs -->
+        <Tab Title="Comandas" Icon="dotnet_bot.png">
+            <ShellContent Route="Tabs" ContentTemplate="{DataTemplate views:TabsView}" />
+        </Tab>
+        
+        <!-- Cash Register -->
+        <Tab Title="Caixa" Icon="dotnet_bot.png">
+            <ShellContent Route="CashRegister" ContentTemplate="{DataTemplate views:CashRegisterView}" />
+        </Tab>
+        
+        <!-- Reservations -->
+        <Tab Title="Reservas" Icon="dotnet_bot.png">
+            <ShellContent Route="Reservations" ContentTemplate="{DataTemplate views:ReservationsView}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

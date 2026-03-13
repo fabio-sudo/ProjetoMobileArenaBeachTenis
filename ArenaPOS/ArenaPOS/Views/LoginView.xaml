@@ -1,0 +1,140 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:ArenaPOS.ViewModels"
+    xmlns:converters="clr-namespace:ArenaPOS.Converters"
+    x:Class="ArenaPOS.Views.LoginView"
+    BackgroundColor="{StaticResource OffBlack}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+
+        <!-- Background -->
+        <BoxView Color="{StaticResource MidnightBlue}" Opacity="0.3"/>
+
+        <VerticalStackLayout
+            Spacing="30"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Padding="40"
+            MaximumWidthRequest="400">
+
+            <!-- Logo -->
+            <Label
+                Text="ARENA"
+                Style="{StaticResource Headline}"
+                FontAttributes="Bold"
+                TextColor="{StaticResource Primary}"/>
+
+            <Label
+                Text="BEACH TENNIS POS"
+                Style="{StaticResource SubHeadline}"
+                FontSize="18"
+                TextColor="{StaticResource White}"
+                Margin="0,-20,0,20"/>
+
+            <!-- Login Card -->
+            <Border
+                BackgroundColor="{StaticResource Gray950}"
+                Stroke="{StaticResource Gray600}"
+                StrokeShape="RoundRectangle 15"
+                Padding="30">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Label
+                        Text="Acesso ao Sistema"
+                        FontSize="22"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        TextColor="{StaticResource White}"/>
+
+                    <!-- Email -->
+                    <VerticalStackLayout Spacing="5">
+
+                        <Label
+                            Text="Usuário ou Email"
+                            TextColor="{StaticResource Gray300}"
+                            FontSize="14"/>
+
+                        <Border
+                            BackgroundColor="{StaticResource OffBlack}"
+                            Stroke="{StaticResource Gray600}"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="10,0">
+
+                            <Entry
+                                Placeholder="Ex: admin"
+                                Text="{Binding Email}"
+                                TextColor="{StaticResource White}"
+                                BackgroundColor="Transparent"
+                                MinimumHeightRequest="45"/>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- Senha -->
+                    <VerticalStackLayout Spacing="5">
+
+                        <Label
+                            Text="Senha"
+                            TextColor="{StaticResource Gray300}"
+                            FontSize="14"/>
+
+                        <Border
+                            BackgroundColor="{StaticResource OffBlack}"
+                            Stroke="{StaticResource Gray600}"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="10,0">
+
+                            <Entry
+                                Placeholder="••••••••"
+                                IsPassword="True"
+                                Text="{Binding Password}"
+                                TextColor="{StaticResource White}"
+                                BackgroundColor="Transparent"
+                                MinimumHeightRequest="45"/>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- Error -->
+                    <Label
+                        Text="{Binding ErrorMessage}"
+                        TextColor="{StaticResource Tertiary}"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource IsNotNullOrEmptyConverter}}"/>
+
+                    <!-- Login button -->
+                    <Button
+                        Text="Entrar"
+                        Command="{Binding LoginCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource PrimaryDarkText}"
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        HeightRequest="50"
+                        Margin="0,15,0,0"/>
+
+                    <ActivityIndicator
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        Color="{StaticResource Primary}"
+                        HorizontalOptions="Center"
+                        Margin="0,10,0,0"/>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

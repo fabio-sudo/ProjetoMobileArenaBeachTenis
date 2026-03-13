@@ -1,0 +1,76 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:ArenaPOS.ViewModels"
+    x:Class="ArenaPOS.Views.TabsView"
+    Title="Comandas"
+    BackgroundColor="{StaticResource OffBlack}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Nova Comanda"
+            Command="{Binding OpenNewTabCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid Padding="10">
+
+        <CollectionView
+            ItemsSource="{Binding OpenTabs}"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Border
+                        Stroke="{StaticResource Gray600}"
+                        BackgroundColor="{StaticResource Gray950}"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="15"
+                        Margin="5">
+
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="6">
+
+                            <!-- Nome do cliente -->
+                            <Label
+                                Text="{Binding CustomerName}"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                TextColor="{StaticResource White}"
+                                Grid.Row="0"
+                                Grid.Column="0"/>
+
+                            <!-- Total -->
+                            <Label
+                                Text="{Binding TotalAmount, StringFormat='R$ {0:F2}'}"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                TextColor="{StaticResource Primary}"
+                                HorizontalOptions="End"
+                                Grid.Row="0"
+                                Grid.Column="1"/>
+
+                            <!-- Status -->
+                            <Label
+                                Text="{Binding Status}"
+                                FontSize="14"
+                                TextColor="{StaticResource Gray400}"
+                                Grid.Row="1"
+                                Grid.Column="0"/>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

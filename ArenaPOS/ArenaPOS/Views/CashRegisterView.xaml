@@ -1,0 +1,157 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:ArenaPOS.ViewModels"
+    xmlns:converters="clr-namespace:ArenaPOS.Converters"
+    x:Class="ArenaPOS.Views.CashRegisterView"
+    Title="Caixa"
+    BackgroundColor="{StaticResource OffBlack}">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="20">
+
+            <!-- STATUS DO CAIXA -->
+            <Border
+                BackgroundColor="{StaticResource Gray950}"
+                Stroke="{StaticResource Gray600}"
+                StrokeShape="RoundRectangle 12"
+                Padding="20">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Status do Caixa"
+                        FontSize="22"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource White}"/>
+
+                    <Label
+                        Text="{Binding CurrentCash.Status, StringFormat='Estado atual: {0}'}"
+                        FontSize="16"
+                        TextColor="{StaticResource Primary}"/>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto"
+                        RowDefinitions="Auto,Auto"
+                        RowSpacing="8">
+
+                        <Label
+                            Text="Abertura:"
+                            TextColor="{StaticResource Gray400}"
+                            Grid.Row="0"/>
+
+                        <Label
+                            Text="{Binding CurrentCash.DateOpened, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}"
+                            TextColor="{StaticResource White}"
+                            Grid.Row="0"
+                            Grid.Column="1"/>
+
+                        <Label
+                            Text="Saldo Inicial:"
+                            TextColor="{StaticResource Gray400}"
+                            Grid.Row="1"/>
+
+                        <Label
+                            Text="{Binding CurrentCash.StartingBalance, StringFormat='R$ {0:F2}'}"
+                            TextColor="{StaticResource White}"
+                            Grid.Row="1"
+                            Grid.Column="1"/>
+
+                    </Grid>
+
+                    <!-- BOTÕES -->
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="10"
+                          Margin="0,10,0,0">
+
+                        <Button
+                            Text="Abrir Caixa"
+                            Command="{Binding OpenCashCommand}"
+                            IsVisible="{Binding IsCashOpen, Converter={StaticResource InvertedBoolConverter}}"
+                            BackgroundColor="{StaticResource Success}"
+                            TextColor="{StaticResource White}"
+                            FontAttributes="Bold"
+                            HeightRequest="50"/>
+
+                        <Button
+                            Grid.Column="1"
+                            Text="Fechar Caixa"
+                            Command="{Binding CloseCashCommand}"
+                            IsVisible="{Binding IsCashOpen}"
+                            BackgroundColor="{StaticResource Tertiary}"
+                            TextColor="{StaticResource White}"
+                            FontAttributes="Bold"
+                            HeightRequest="50"/>
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+
+            <!-- DESPESAS / SANGRIA -->
+            <Border
+                BackgroundColor="{StaticResource Gray950}"
+                Stroke="{StaticResource Gray600}"
+                StrokeShape="RoundRectangle 12"
+                Padding="20"
+                IsVisible="{Binding IsCashOpen}">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Registrar Despesa / Sangria"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource White}"/>
+
+                    <!-- DESCRIÇÃO -->
+                    <Border
+                        Stroke="{StaticResource Gray600}"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="10">
+
+                        <Entry
+                            Placeholder="Descrição (ex: pagamento fornecedor)"
+                            Text="{Binding ExpenseDescription}"
+                            TextColor="{StaticResource White}"
+                            BackgroundColor="Transparent"/>
+
+                    </Border>
+
+                    <!-- VALOR -->
+                    <Border
+                        Stroke="{StaticResource Gray600}"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="10">
+
+                        <Entry
+                            Placeholder="Valor (R$)"
+                            Text="{Binding ExpenseAmount}"
+                            Keyboard="Numeric"
+                            TextColor="{StaticResource White}"
+                            BackgroundColor="Transparent"/>
+
+                    </Border>
+
+                    <Button
+                        Text="Registrar Saída"
+                        Command="{Binding AddExpenseCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource PrimaryDarkText}"
+                        FontAttributes="Bold"
+                        HeightRequest="50"/>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>
